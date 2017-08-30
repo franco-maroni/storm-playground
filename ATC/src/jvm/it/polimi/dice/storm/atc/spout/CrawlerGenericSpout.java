@@ -19,7 +19,7 @@ public class CrawlerGenericSpout extends BaseRichSpout {
 
   public CrawlerGenericSpout(double avgEmitRate) {
       this.avgEmitRate = avgEmitRate;
-      this.waitTimeToEmit = (int)(1/avgEmitRate * 1000 + 0.5d);
+      this.waitTimeToEmit = (int)(1/avgEmitRate + 0.5d);
 }
 
   @Override
@@ -30,7 +30,7 @@ public class CrawlerGenericSpout extends BaseRichSpout {
 
   @Override
   public void nextTuple() { 
-    Utils.sleep(100);
+    Utils.sleep(waitTimeToEmit);
     String[] sentences = new String[]{
       "A","B","C","D","E"
       };

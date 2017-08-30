@@ -74,9 +74,9 @@ public class ATCCrawlerTopology {
             // submit the topology to the local cluster
             cluster.submitTopology("atc", conf, builder.createTopology());
 
-            // let the topology run for 30 seconds. note topologies never
+            // let the topology run for 60 seconds. note topologies never
             // terminate!
-            Thread.sleep(60000);
+            Thread.sleep(7200000);
 
             // kill the topology
             cluster.killTopology("atc");

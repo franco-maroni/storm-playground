@@ -11,12 +11,15 @@ import backtype.storm.utils.Utils;
 import java.util.Map;
 import java.util.Random;
 
+import org.apache.log4j.Logger;
+
 public class CrawlerGenericSpout extends BaseRichSpout {
   SpoutOutputCollector _collector;
   Random _rand;
   double avgEmitRate;
   int waitTimeToEmit;
-
+  static Logger LOG = Logger.getLogger(CrawlerGenericSpout.class);
+  
   public CrawlerGenericSpout(double avgEmitRate) {
       this.avgEmitRate = avgEmitRate;
       this.waitTimeToEmit = (int)(1/avgEmitRate + 0.5d);
@@ -43,6 +46,10 @@ public class CrawlerGenericSpout extends BaseRichSpout {
     declarer.declare(new Fields("sentence"));
   }
 
+  public void ack(Object msgId) {
+      LOG.info("Message fully processed ["+msgId+"]");
+  }
+  
   public static void main(String[] args) {
     Random r = new Random();
     for (int i = 0; i < 10; i++) {

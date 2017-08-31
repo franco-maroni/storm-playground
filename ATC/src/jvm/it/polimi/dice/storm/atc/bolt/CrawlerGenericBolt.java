@@ -55,8 +55,9 @@ public class CrawlerGenericBolt extends BaseRichBolt
     double number = generator.nextDouble();
     if (number < sigma){
         // emit the word and count
-        collector.emit(new Values(decoratedWord.toString()));        
+        collector.emit(tuple, new Values(decoratedWord.toString()));        
     }
+    collector.ack(tuple);
   }
 
   @Override

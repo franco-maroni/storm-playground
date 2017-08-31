@@ -35,7 +35,7 @@ public class CrawlerGenericSpout extends BaseRichSpout {
       "A","B","C","D","E"
       };
     String sentence = sentences[_rand.nextInt(sentences.length)];
-    _collector.emit(new Values(sentence));
+    _collector.emit(new Values(sentence), sentence+"_"+_rand.nextInt());
   }
 
   @Override
@@ -43,4 +43,11 @@ public class CrawlerGenericSpout extends BaseRichSpout {
     declarer.declare(new Fields("sentence"));
   }
 
+  public static void main(String[] args) {
+    Random r = new Random();
+    for (int i = 0; i < 10; i++) {
+        System.out.println(r.nextInt());
+    }
+    
+}
 }

@@ -27,24 +27,24 @@ public class ATCCrawlerTopology {
         TopologyBuilder builder = new TopologyBuilder();
 
         // attach the word spout to the topology - parallelism of 10
-        builder.setSpout("redisSpout", new CrawlerGenericSpout(0.01), 1);
+        builder.setSpout("redisSpout", new CrawlerGenericSpout(0.1), 1);
 
         // attach the exclamation bolt to the topology - parallelism of 3
-        builder.setBolt("deserializationBolt", new CrawlerGenericBolt(100, 0.9), 5).shuffleGrouping("redisSpout");
+        builder.setBolt("deserializationBolt", new CrawlerGenericBolt(10, 0.9), 5).shuffleGrouping("redisSpout");
 
         // attach another exclamation bolt to the topology - parallelism of 2
-        builder.setBolt("urlExpansionBolt", new CrawlerGenericBolt(100, 0.9), 4).shuffleGrouping("deserializationBolt");
+        builder.setBolt("urlExpansionBolt", new CrawlerGenericBolt(10, 0.9), 4).shuffleGrouping("deserializationBolt");
 
-        builder.setBolt("urlCrawlDeciderBolt", new CrawlerGenericBolt(100, 0.9), 1).shuffleGrouping("urlExpansionBolt");
+        builder.setBolt("urlCrawlDeciderBolt", new CrawlerGenericBolt(10, 0.9), 1).shuffleGrouping("urlExpansionBolt");
 
-        builder.setBolt("webPageFetcherBolt", new CrawlerGenericBolt(100, 0.8), 4).shuffleGrouping("urlCrawlDeciderBolt");
+        builder.setBolt("webPageFetcherBolt", new CrawlerGenericBolt(10, 0.8), 4).shuffleGrouping("urlCrawlDeciderBolt");
 
-        builder.setBolt("mediaExtractionBolt", new CrawlerGenericBolt(100, 1), 1).shuffleGrouping("urlCrawlDeciderBolt");
+        builder.setBolt("mediaExtractionBolt", new CrawlerGenericBolt(10, 1), 1).shuffleGrouping("urlCrawlDeciderBolt");
 
-        builder.setBolt("articleExtractionBolt", new CrawlerGenericBolt(100, 0.8), 8)
+        builder.setBolt("articleExtractionBolt", new CrawlerGenericBolt(10, 0.8), 8)
                 .shuffleGrouping("webPageFetcherBolt");
 
-        builder.setBolt("solrBolt", new CrawlerGenericBolt(50, 1), 2)
+        builder.setBolt("solrBolt", new CrawlerGenericBolt(5, 1), 2)
                 .shuffleGrouping("mediaExtractionBolt")
                 .shuffleGrouping("articleExtractionBolt");
 

@@ -44,7 +44,7 @@ public class ATCCrawlerTopology {
         builder.setBolt("articleExtractionBolt", new CrawlerGenericBolt(10, 0.8), 8)
                 .shuffleGrouping("webPageFetcherBolt");
 
-        builder.setBolt("solrBolt", new CrawlerGenericBolt(5, 1), 2)
+        builder.setBolt("solrBolt", new CrawlerGenericBolt(10, 1), 2)
                 .shuffleGrouping("mediaExtractionBolt")
                 .shuffleGrouping("articleExtractionBolt");
 

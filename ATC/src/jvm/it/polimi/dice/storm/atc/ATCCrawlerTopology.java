@@ -27,7 +27,7 @@ public class ATCCrawlerTopology {
         TopologyBuilder builder = new TopologyBuilder();
 
         // attach the word spout to the topology - parallelism of 10
-        builder.setSpout("redisSpout", new CrawlerGenericSpout(0.1), 1);
+        builder.setSpout("redisSpout", new CrawlerGenericSpout(0.1), 5);
 
         // attach the exclamation bolt to the topology - parallelism of 3
         builder.setBolt("deserializationBolt", new CrawlerGenericBolt(10, 0.9), 5).shuffleGrouping("redisSpout");
